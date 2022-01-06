@@ -28,7 +28,7 @@ Most options remaining:
 	YUKKY = 8336.046
 ```
 
-## Using "average number of green + yellow squares" to guess best word
+## Using "average number of (2 \* green + yellow) squares" to guess best word
 
 ```
 Best overall:
