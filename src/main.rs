@@ -6,6 +6,7 @@ use std::fs::File;
 use std::io;
 use std::io::BufRead;
 use std::str;
+use std::time::Instant;
 
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Debug)]
 struct Word {
@@ -56,20 +57,26 @@ fn yellow(guess: Word, answer: Word) -> f32 {
         .count() as f32
 }
 
-fn color_averages(words: Vec<Word>) {
-    let mut greens: Vec<ScoredWord> = Vec::with_capacity(words.len());
-    let mut yellows: Vec<ScoredWord> = Vec::with_capacity(words.len());
+fn color_averages(guesses: Vec<Word>, answers: Vec<Word>) {
+    let mut greens: Vec<ScoredWord> = Vec::with_capacity(guesses.len());
+    let mut yellows: Vec<ScoredWord> = Vec::with_capacity(guesses.len());
 
-    for guess in words.iter() {
-        let green_sum: f32 = words.par_iter().map(|answer| green(*guess, *answer)).sum();
-        let yellow_sum: f32 = words.par_iter().map(|answer| yellow(*guess, *answer)).sum();
+    for guess in guesses.iter() {
+        let green_sum: f32 = answers
+            .par_iter()
+            .map(|answer| green(*guess, *answer))
+            .sum();
+        let yellow_sum: f32 = answers
+            .par_iter()
+            .map(|answer| yellow(*guess, *answer))
+            .sum();
         greens.push(ScoredWord {
             word: *guess,
-            score: green_sum / (words.len() as f32),
+            score: green_sum / (answers.len() as f32),
         });
         yellows.push(ScoredWord {
             word: *guess,
-            score: yellow_sum / (words.len() as f32),
+            score: yellow_sum / (answers.len() as f32),
         });
     }
 
@@ -115,7 +122,7 @@ fn color_averages(words: Vec<Word>) {
 
 fn num_left(words: &[Word], guess: Word, answer: Word) -> usize {
     words
-        .par_iter()
+        .iter()
         .filter(|w| {
             guess
                 .word
@@ -134,32 +141,34 @@ fn num_left(words: &[Word], guess: Word, answer: Word) -> usize {
         .count()
 }
 
-fn inference(words: Vec<Word>) {
-    let mut avg_remaining: Vec<ScoredWord> = Vec::with_capacity(words.len());
-    for guess in words.iter().progress() {
-        let remaining_sum: usize = words
+fn inference(guesses: Vec<Word>, answers: Vec<Word>) {
+    let mut avg_remaining: Vec<ScoredWord> = Vec::with_capacity(guesses.len());
+    let mut start = Instant::now();
+    for guess in guesses.iter().progress() {
+        let remaining_sum: usize = answers
             .par_iter()
-            .map(|answer| num_left(&words, *guess, *answer))
+            .map(|answer| num_left(&answers, *guess, *answer))
             .sum();
         avg_remaining.push(ScoredWord {
             word: *guess,
-            score: remaining_sum as f32 / words.len() as f32,
-        })
+            score: remaining_sum as f32 / answers.len() as f32,
+        });
     }
+
     avg_remaining.par_sort_by(|x, y| x.score.partial_cmp(&y.score).unwrap());
-    println!("Best remaining:");
-    for x in avg_remaining.iter().rev().take(10) {
+    println!("Least words remaining:");
+    for x in avg_remaining.iter().take(10) {
         println!("\t{}", x)
     }
 
-    println!("Worst remaining:");
-    for x in avg_remaining.iter().take(10) {
+    println!("Most words remaining:");
+    for x in avg_remaining.iter().rev().take(10) {
         println!("\t{}", x)
     }
 }
 
-fn main() -> io::Result<()> {
-    let data = io::BufReader::new(File::open("words.txt")?);
+fn get_words(filename: &str) -> io::Result<Vec<Word>> {
+    let data = io::BufReader::new(File::open(filename)?);
 
     let mut words: Vec<Word> = Vec::with_capacity(1000);
 
@@ -177,11 +186,18 @@ fn main() -> io::Result<()> {
         }
     }
 
-    // Takes 3 seconds on my computer
-    color_averages(words);
+    Ok(words)
+}
 
-    // Takes ~1 hour on my computer
-    // inference(words);
+fn main() -> io::Result<()> {
+    let guesses = get_words("guesses.txt")?;
+    let answers = get_words("answers.txt")?;
+
+    // Takes 3 seconds on my computer
+    color_averages(guesses, answers);
+
+    // Takes  hour on my computer
+    // inference(guesses, answers);
 
     Ok(())
 }

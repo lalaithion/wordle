@@ -1,101 +1,103 @@
 # Wordle first-guess analysis
 
+Now using the actual words from the game!
+
 ## Using "average number of eliminated words" to guess best word
 
 ```
-Least options remaining:
-	SOARE = 2264.414
-	AEROS = 2267.7305
-	ALOES = 2314.5554
-	AEONS = 2322.5186
-	TOEAS = 2340.8706
-	STOAE = 2351.8867
-	REAIS = 2362.258
-	SERAI = 2371.765
-	AROSE = 2409.9116
-	RAISE = 2450.499
+Least words remaining:
+	uraei = 443.79956
+	aurei = 458.27948
+	raile = 460.24362
+	soare = 465.746
+	roate = 468.9339
+	aesir = 475.3054
+	serai = 475.35593
+	ariel = 475.40692
+	orate = 476.02982
+	realo = 476.1892
 
-Most options remaining:
-    XYLYL = 8724.92
-	QAJAQ = 8720.859
-	IMMIX = 8671.732
-	FUFFY = 8666.911
-	GYPPY = 8609.823
-	COCCO = 8524.826
-	HYPHY = 8500.336
-	FUZZY = 8393.113
-	BUBBY = 8343.036
-	YUKKY = 8336.046
+Most words remaining:
+	qajaq = 1592.9171
+	immix = 1572.2375
+	jujus = 1520.9694
+	zoppo = 1501.4471
+	jugum = 1496.9231
+	jaffa = 1494.6035
+	xylyl = 1491.1693
+	susus = 1489.991
+	fuffy = 1489.5511
+	yukky = 1488.5135
 ```
 
 ## Using "average number of (2 \* green + yellow) squares" to guess best word
 
 ```
 Best overall:
-	TARES = 2.6575701
-	LARES = 2.6454673
-	RALES = 2.6224174
-	NARES = 2.6008327
-	RATES = 2.5982885
-	DARES = 2.590888
-	CARES = 2.5800185
-	PARES = 2.5724638
-	TALES = 2.569303
-	MARES = 2.5583565
+	soare = 2.4280777
+	roate = 2.3308856
+	raile = 2.3144708
+	saine = 2.2989202
+	orate = 2.2980561
+	strae = 2.2807775
+	raine = 2.2807775
+	slane = 2.2725701
+	salet = 2.2682505
+	ariel = 2.2656589
 Best for greens:
-	SORES = 0.8590811
-	SANES = 0.8539161
-	SALES = 0.8449738
-	SONES = 0.8410422
-	SOLES = 0.8320999
-	SATES = 0.82708913
-	SERES = 0.8230034
-	CARES = 0.8223867
-	BARES = 0.82138455
-	SAMES = 0.81899476
+	saree = 0.6803456
+	sooey = 0.6786177
+	soree = 0.6695464
+	saine = 0.6660907
+	soare = 0.6600432
+	saice = 0.6531317
+	sease = 0.6522678
+	seare = 0.6440605
+	slane = 0.63930887
+	seine = 0.63930887
 Best for yellows:
-	SOARE = 1.9111162
-	AROSE = 1.9111162
-	AEROS = 1.9111162
-	SERAI = 1.8862935
-	REAIS = 1.8862935
-	RAISE = 1.8862935
-	ARISE = 1.8862935
-	AESIR = 1.8862935
-	ALOES = 1.8498304
-	SERAL = 1.8496763
+	roate = 1.7892009
+	orate = 1.7892009
+	oater = 1.7892009
+	realo = 1.7809935
+	taler = 1.7784017
+	ratel = 1.7784017
+	artel = 1.7784017
+	terai = 1.7779697
+	retia = 1.7779697
+	raile = 1.7697624
 
 Worst overall:
-	XYLYL = 0.5512643
-	IMMIX = 0.5826395
-	OXBOW = 0.6291243
-	HYPHY = 0.63860625
-	GYPPY = 0.6514801
-	JUGUM = 0.65309894
-	KUDZU = 0.6718316
-	FLUFF = 0.6798489
-	WHIZZ = 0.6848597
-	FUFFY = 0.69025594
+	immix = 0.5533477
+	kudzu = 0.59006476
+	xylyl = 0.60302377
+	jujus = 0.6172786
+	kibbi = 0.6177106
+	oxbow = 0.6185745
+	qajaq = 0.6298056
+	jugum = 0.6388769
+	zoppo = 0.64881206
+	zimbi = 0.66868246
 Worst for greens:
-	ENZYM = 0.083256245
-	ETHYL = 0.096053034
-	EWHOW = 0.10391612
-	IMSHI = 0.10800185
-	OXBOW = 0.10915819
-	UNDUG = 0.113166824
-	UNGUM = 0.11416898
-	UPBOW = 0.11694419
-	EMBOW = 0.12241752
-	EMBOX = 0.12288005
+	imshi = 0.0825054
+	umphs = 0.08336933
+	emmys = 0.09071274
+	enzym = 0.09287257
+	hypha = 0.10453564
+	emyds = 0.10539957
+	xysti = 0.109287255
+	ombus = 0.109719224
+	onkus = 0.11144708
+	oshac = 0.11231101
 Worst for yellows:
-	XYLYL = 0.41874808
-	FUFFY = 0.4206753
-	GYPPY = 0.42082947
-	HYPHY = 0.4335492
-	QAJAQ = 0.44172063
-	IMMIX = 0.44279987
-	COCCO = 0.44950664
-	FUZZY = 0.45081714
-	YUKKY = 0.45567375
-	BUBBY = 0.46145543
+	qajaq = 0.41684666
+	immix = 0.42419007
+	zoppo = 0.45529157
+	gyppy = 0.45917925
+	kudzu = 0.45961124
+	susus = 0.46436286
+	yukky = 0.4647948
+	fuffy = 0.46695465
+	jugum = 0.4673866
+	jujus = 0.4760259
 ```
